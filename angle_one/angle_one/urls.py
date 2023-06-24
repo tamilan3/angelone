@@ -18,5 +18,7 @@ from django.urls import path
 from angleapp  import views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.test)
+    path('index/',views.test,name="index"),
+    path('auth/',views.login_reg)
+
 ]
