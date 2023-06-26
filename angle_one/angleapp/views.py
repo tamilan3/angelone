@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
 from smartapi import SmartConnect,SmartWebSocket 
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 import xlwings as xw
 import pandas as pd
 import pyotp
+import json
 from django.contrib.auth import authenticate,login as loginUser,logout
 from .decorator import unauthenticated_user
+
 def test(request):
     
-    """ #create object of call
     obj=SmartConnect(api_key="Ik1MXGvu")
     #login api call
     data = obj.generateSession("D50876758","2580",pyotp.TOTP("TF4PXX4D3WVPAYFPDSVN6WUFEQ").now())
@@ -27,13 +29,10 @@ def test(request):
         data=obj.getCandleData(historicParam)
     except Exception as e:
         print("Historic Api failed: {}".format(e.message))   
-    context={
-        'token':feedToken,
-        'data':data
-    }     
+       
+    data=json.dumps(data)
 
-    """
-    return render(request,"angleapp/index.html")
+    return JsonResponse(data,content_type='application/json',safe=False)
 
 @unauthenticated_user
 def login_reg(request):
